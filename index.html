@@ -10,6 +10,9 @@
 		:root {
 			--background-color-base: bisque;
 			--background-color-selected: burlywood;
+			--body-background-color: rgba(0, 0, 0, 0.56);
+			--dialog-background-color: #272734;
+			--dialog-font-color: bisque;
 			--font-color-base: black;
 			--font-color-selected: blue;
 			--font-color-highlight: #05ea10;
@@ -21,7 +24,7 @@
 			flex-direction: column;
 			font-size: var(--font-size-base);
 			gap: 1rem;
-			background-color: rgba(0, 0, 0, 0.56);
+			background-color: var(--body-background-color);
 		}
 		.buttons-group {
 			/*noinspection CssUnusedSymbol*/
@@ -35,6 +38,11 @@
 				width: 3rem;
 				height: 3rem;
 			}
+		}
+		dialog {
+			text-align: center;
+			background-color: var(--dialog-background-color);
+			color: var(--dialog-font-color);
 		}
 		table {
 			border-collapse: collapse;
@@ -356,7 +364,7 @@
 	</tbody>
 </table>
 <div class="controls">
-	<button id="about" onclick="showAbout()" aria-label="About">About</button>
+	<button id="about" onclick="toggleAboutModal()" aria-label="About">About</button>
 	<button id="settings" aria-label="Settings">Settings</button>
 </div>
 <template id="pencil-board">
@@ -380,6 +388,19 @@
 		</tbody>
 	</table>
 </template>
+<dialog id="about-modal">
+	<h2>About</h2>
+	<p>
+		Developed by Ben Baryo
+		https://github.com/ctrl-escp/sudoku
+	</p>
+	<button aria-label="Close Modal" onclick="toggleAboutModal(true)">Close</button>
+</dialog>
+<dialog id="game-won-modal">
+	<h2>Congratulations!</h2>
+	<p>You've solved the puzzle!</p>
+	<button aria-label="Close Modal" onclick="toggleGameWonModal(true)">Close</button>
+</dialog>
 <script>
 	const board = document.getElementById('board');
 	let selectedCell;
@@ -387,8 +408,11 @@
 	let isPencil = false;
 	let isEraser = false;
 
-	function showAbout() {
-		alert(`Developed by Ben Baryo\nhttps://github.com/ctrl-escp/sudoku`);
+	function toggleAboutModal(close=false) {
+		document.getElementById('about-modal')[close ? 'close' : 'showModal']();
+	}
+	function toggleGameWonModal(close=false) {
+		document.getElementById('game-won-modal')[close ? 'close' : 'showModal']();
 	}
 
 	function togglePencil() {
@@ -530,7 +554,7 @@
 		for (let i = 0; i < 9; i++) {
 			if (!(isNumberRangeComplete(rows[i]) && isNumberRangeComplete(cols[i]))) return false;
 		}
-		console.log(`Congrats! You've solved the challenge!`);  // TODO: Do something other than log
+		toggleGameWonModal();
 		return true;
 	}
 

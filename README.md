@@ -16,5 +16,5 @@ In no particular order:
 - [ ] Save statistics for all games in localStorage
 - [ ] Automatic pencil marks
 - [ ] Modify color scheme
-- [ ] Proper about and settings modals
+- [x] Proper about and settings modals
 - [ ] Game completed animation
