@@ -486,7 +486,7 @@
 		for (let i = 0; i < l.length; i++) yield l[i];
 	}
 
-	function isSolved(values) {
+	function isSolved(values, errors=undefined) {
 		function verifyRange(nums) {
 			return nums.length === 9 && !(new RegExp('(\\d).*\\1').test(nums) || nums.includes('0'));
 		}
@@ -505,15 +505,32 @@
 			box.push(val);
 			// Check for missing or duplicates in 3x3 boxes
 			if (box.length === 9) {
-				if (!verifyRange(box.join(''))) return false;
+				if (!verifyRange(box.join(''))) {
+					if (errors) errors.push(['box', i]);
+					else return false;
+				}
 				box.length = 0;
 			}
 		}
 		// Check for missing or duplicates in rows and columns
 		for (let i = 0; i < 9; i++) {
-			if (!(verifyRange(rows[i].join('')) && verifyRange(cols[i].join('')))) return false;
+			const row = rows[i].join('');
+			const col = cols[i].join('');
+			const isRowVerified = verifyRange(row);
+			const isColVerified = verifyRange(col);
+			if (isRowVerified && isColVerified) continue;
+			if (errors) errors.push([isRowVerified ? 'col' : 'row', i]);
+			else return false;
 		}
 		return true;
+	}
+
+	/**
+	 *
+	 * @param {[string, number][]} errors
+	 */
+	function parseErrors(errors) {
+
 	}
 
 	function initBoard() {
