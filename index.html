@@ -408,6 +408,10 @@
 	let isPencil = false;
 	let isEraser = false;
 
+	function getBoardValues() {
+		return Array.from(document.querySelectorAll('[data-name="value"]'), v => v.innerText || 0).join('');
+	}
+
 	function toggleAboutModal(close=false) {
 		document.getElementById('about-modal')[close ? 'close' : 'showModal']();
 	}
@@ -460,7 +464,7 @@
 					} else {
 						cell.children[1].classList.add('hide');
 						cell.children[0].innerText = selectedBtn.id;
-						checkIfBoardIsSolved();
+						if (isSolved(getBoardValues())) toggleGameWonModal();
 					}
 				}
 			}
@@ -479,6 +483,36 @@
 	function* testBoardNums() {
 		const l = '719286534836451729425397816490178653573690148168543972821945367364287915759631284'.split('');
 		for (let i = 0; i < l.length; i++) yield l[i];
+	}
+
+	function isSolved(values) {
+		function verifyRange(nums) {
+			return nums.length === 9 && !(new RegExp('(\\d).*\\1').test(nums) || nums.includes('0'));
+		}
+		const box = [];
+		const rows = Array.from({length: 9}, () => []);
+		const cols = Array.from({length: 9}, () => []);
+		for (let i = 0; i < values.length; i++) {
+			const val = values[i];
+			const globalBoxIndex = Math.floor(i / 9);
+			const localBoxIndex = i % 9;
+			const rowIdx = 3 * Math.floor(globalBoxIndex / 3) + Math.floor(localBoxIndex / 3);
+			const colIdx = 3 * (globalBoxIndex % 3) + (localBoxIndex % 3);
+			// Add value to the corresponding row and column
+			rows[rowIdx].push(val);
+			cols[colIdx].push(val);
+			box.push(val);
+			// Check for missing or duplicates in 3x3 boxes
+			if (box.length === 9) {
+				if (!verifyRange(box.join(''))) return false;
+				box.length = 0;
+			}
+		}
+		// Check for missing or duplicates in rows and columns
+		for (let i = 0; i < 9; i++) {
+			if (!(verifyRange(rows[i].join('')) && verifyRange(cols[i].join('')))) return false;
+		}
+		return true;
 	}
 
 	function initBoard() {
@@ -516,46 +550,6 @@
 			btn.removeEventListener('click', keyClick);
 			btn.addEventListener('click', keyClick);
 		}
-	}
-
-	function checkIfBoardIsSolved() {
-		/**
-		 * Check if
-		 * @param {number[]} nums
-		 */
-		function isNumberRangeComplete(nums) {
-			if (nums.length !== 9) return false;
-			for (let i = 1; i < 10; i++) if (!nums.includes(i)) return false;
-			return true;
-		}
-		const rows = [];
-		const cols = [];
-		for (let i = 0; i < 9; i++) {
-			rows.push([]);
-			cols.push([]);
-		}
-		const tableRows = Array.from(board.querySelectorAll('[id^="row-"]'));
-		for (let i = 0; i < tableRows.length; i++) {
-			const targetRow = i * 3;
-			const row = tableRows[i];
-			const rowCells = Array.from(row.querySelectorAll('[class^="col-"]'));
-			for (let j = 0; j < rowCells.length; j++) {
-				const targetCol = j * 3;
-				const cellNums = Array.from(rowCells[j].querySelectorAll('[data-cell]')).map(td => Number(td.children[0].innerText));
-				if (!isNumberRangeComplete(cellNums)) return false;
-				rows[targetRow].push(...cellNums.slice(0, 3));
-				rows[targetRow + 1].push(...cellNums.slice(3, 6));
-				rows[targetRow + 2].push(...cellNums.slice(6, 9));
-				cols[targetCol].push(cellNums[0], cellNums[3], cellNums[6]);
-				cols[targetCol + 1].push(cellNums[1], cellNums[4], cellNums[7]);
-				cols[targetCol + 2].push(cellNums[2], cellNums[5], cellNums[8]);
-			}
-		}
-		for (let i = 0; i < 9; i++) {
-			if (!(isNumberRangeComplete(rows[i]) && isNumberRangeComplete(cols[i]))) return false;
-		}
-		toggleGameWonModal();
-		return true;
 	}
 
 	initKeyboard();
