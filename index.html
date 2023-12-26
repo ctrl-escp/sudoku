@@ -445,7 +445,7 @@
 
 	function highlightNumbersOnBoard(num) {
 		board.querySelectorAll(`[data-name="value"], [data-pencil]`).forEach(el => {
-			if (el.innerText === num || el.dataset.pencil === num) el.classList.add('highlight-number');
+			if (num && (el.innerText === num || el.dataset.pencil === num)) el.classList.add('highlight-number');
 			else el.classList.remove('highlight-number');
 		});
 	}
