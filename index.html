@@ -14,7 +14,7 @@
 			--dialog-background-color: #272734;
 			--dialog-font-color: bisque;
 			--font-color-base: black;
-			--font-color-selected: #05ea10;
+			--font-color-selected: #0524ea;
 			--font-color-highlight: #05ea10;
 			--font-size-base: 20px;
 		}
@@ -89,7 +89,7 @@
 				color: var(--font-color-selected);
 			}
 			/*noinspection CssUnusedSymbol*/
-			.highlight-number {
+			.highlight-digit {
 				color: var(--font-color-highlight);
 			}
 		}
@@ -533,6 +533,7 @@
 			selectedCell = cell;
 			selectedCell.classList.add('selected');
       saveBoardState(getBoardValues());
+      highlightDigits();
 		}
 	}
 
@@ -621,6 +622,14 @@
     saveBoardState(board);
 	}
 
+  function highlightDigits() {
+    const val = selectedBtn?.id;
+    board.querySelectorAll(`[data-name="value"], [data-pencil]`).forEach(el => {
+      if (val && (el.innerText === val || el.dataset.pencil === val)) el.classList.add('highlight-digit');
+      else el.classList.remove('highlight-digit');
+    })
+  }
+
   /**
    * Initialize the numeric keyboard click behavior
    */
@@ -631,11 +640,7 @@
 			selectedBtn?.classList?.remove('selected');
 			selectedBtn = selectedBtn === btn ? null : btn;
 			selectedBtn?.classList?.add('selected');
-      const val = selectedBtn?.id;
-      board.querySelectorAll(`[data-name="value"], [data-pencil]`).forEach(el => {
-        if (val && (el.innerText === val || el.dataset.pencil === val)) el.classList.add('highlight-number');
-        else el.classList.remove('highlight-number');
-      })
+      highlightDigits();
 		}
 		const keyboardButtons = document.querySelectorAll('#keyboard button');
 		for (let i = 0; i < keyboardButtons.length; i++) {
