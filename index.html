@@ -14,7 +14,7 @@
 			--dialog-background-color: #272734;
 			--dialog-font-color: bisque;
 			--font-color-base: black;
-			--font-color-selected: blue;
+			--font-color-selected: #05ea10;
 			--font-color-highlight: #05ea10;
 			--font-size-base: 20px;
 		}
@@ -109,71 +109,113 @@
 				background-color: #2782d2;
 			}
 		}
+		header {
+			display: flex;
+			align-items: center;
+			background-color: #272734;
+			width: 100%;
+			height: 3rem;
+			justify-content: space-between;
+
+			&> * {
+				padding: 0 .5rem;
+			}
+
+			.github-icon {
+				width: 2rem;
+				height: 2rem;
+			}
+
+			.icons {
+				display: flex;
+				svg {
+					width: 2rem;
+					height: 2rem;
+				}
+			}
+		}
 		.hide {
 			display: none;
+		}
+		[role="button"] {
+			&:active {
+				transform: translate(2px, 2px);
+				animation: transform 0.02 ease;
+			}
 		}
 	</style>
 </head>
 <body>
+<header>
+  <span role="button" class="icons" title="Sudoku" aria-label="About" onclick="document.getElementById('about-modal').showModal()">
+    <img width="30" height="30" src="data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjIwMHB4IiB3aWR0aD0iMjAwcHgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDQ0OC4wMDEgNDQ4LjAwMSIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgc3Ryb2tlPSIjMDAwMDAwIj48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwIC0xMDIwLjM2KSIgc2hhcGUtcmVuZGVyaW5nPSJhdXRvIiBpbWFnZS1yZW5kZXJpbmc9ImF1dG8iIGNvbG9yLXJlbmRlcmluZz0iYXV0byIgY29sb3ItaW50ZXJwb2xhdGlvbj0ic1JHQiI+PHBhdGggc3R5bGU9ImZpbGw6IzI5QTNFQzsiIGQ9Ik0xNS45NDksMTMyNC4zMjZoMTI4LjAzMXYxMjguMDMxSDE1Ljk0OVYxMzI0LjMyNnoiLz48cGF0aCBzdHlsZT0iZmlsbDojM0NERUY2OyIgZD0iTTI3Ljk2NSwxMzM2LjM0MmgxMDR2MTA0aC0xMDRDMjcuOTY1LDE0NDAuMzQyLDI3Ljk2NSwxMzM2LjM0MiwyNy45NjUsMTMzNi4zNDJ6Ii8+PHBhdGggc3R5bGU9ImZpbGw6IzI5QTNFQzsiIGQ9Ik0xNS45NDksMTE4MC4zNDloMTI4LjAzMXYxMjguMDMxSDE1Ljk0OVYxMTgwLjM0OXoiLz48cGF0aCBzdHlsZT0iZmlsbDojM0NERUY2OyIgZD0iTTI3Ljk2NSwxMTkyLjM2N2gxMDR2MTA0aC0xMDRDMjcuOTY1LDEyOTYuMzY3LDI3Ljk2NSwxMTkyLjM2NywyNy45NjUsMTE5Mi4zNjd6Ii8+PHBhdGggc3R5bGU9ImZpbGw6IzI5QTNFQzsiIGQ9Ik0xNS45NDksMTAzNi4zNjloMTI4LjAzMVYxMTY0LjRIMTUuOTQ5VjEwMzYuMzY5TDE1Ljk0OSwxMDM2LjM2OXoiLz48cGF0aCBzdHlsZT0iZmlsbDojM0NERUY2OyIgZD0iTTI3Ljk2NSwxMDQ4LjM4NWgxMDR2MTA0aC0xMDRDMjcuOTY1LDExNTIuMzg1LDI3Ljk2NSwxMDQ4LjM4NSwyNy45NjUsMTA0OC4zODV6Ii8+PHBhdGggc3R5bGU9ImZpbGw6IzI5QTNFQzsiIGQ9Ik0xNTkuOTg1LDEwMzYuMzY5aDEyOC4wMzFWMTE2NC40SDE1OS45ODVMMTU5Ljk4NSwxMDM2LjM2OUwxNTkuOTg1LDEwMzYuMzY5eiIvPjxwYXRoIHN0eWxlPSJmaWxsOiMzQ0RFRjY7IiBkPSJNMTcyLjAwMSwxMDQ4LjM4NWgxMDR2MTA0aC0xMDRWMTA0OC4zODV6Ii8+PHBhdGggc3R5bGU9ImZpbGw6I0ZGRkZGRjsiIGQ9Ik0yMjIuOTk3LDEwNjguNDQxYy00LjA3LDAuNDY5LTcuMTI5LDMuOTM2LTcuMDg3LDguMDMxdjQ3LjgzNmMwLjAwMiw0LjQzNiwzLjYsOC4wMjksOC4wMzUsOC4wMjcgYzQuNDMzLTAuMDAyLDguMDI1LTMuNTk0LDguMDI4LTguMDI3di00Ny44MzZjMC4wNS00LjQxOC0zLjQ5Mi04LjA0MS03LjkxLTguMDkgQzIyMy43MDcsMTA2OC4zNzksMjIzLjM1MSwxMDY4LjM5OCwyMjIuOTk3LDEwNjguNDQxTDIyMi45OTcsMTA2OC40NDF6Ii8+PHBhdGggc3R5bGU9ImZpbGw6IzVBMzM5MjsiIGQ9Ik03LjIwOSwxMDIwLjM3MWMtNC4xMTcsMC40MTEtNy4yNCwzLjg5NC03LjIwNSw4LjAzdjE0My45NzhjLTAuMDE3LDQuMzk2LDMuNTE3LDcuOTgyLDcuOTEzLDguMDMxIGgxNDQuMDk1YzQuMzk2LTAuMDQ5LDcuOTMtMy42MzUsNy45MTMtOC4wMzF2LTE0My45NzhjMC4wMTYtNC4zOTYtMy41MTctNy45ODItNy45MTMtOC4wM0g3LjkxOCBDNy42ODIsMTAyMC4zNiw3LjQ0NSwxMDIwLjM2LDcuMjA5LDEwMjAuMzcxTDcuMjA5LDEwMjAuMzcxeiBNMTUuOTUsMTAzNi40MzNoMTI4LjAzMXYxMjcuOTE0SDE1Ljk1VjEwMzYuNDMzeiIvPjxwYXRoIHN0eWxlPSJmaWxsOiM1QTMzOTI7IiBkPSJNMTUxLjE4NiwxMDIwLjM3MWMtNC4xMTcsMC40MTEtNy4yNCwzLjg5NC03LjIwNSw4LjAzdjE0My45NzggYy0wLjAxNyw0LjQxOCwzLjU1Miw4LjAxNCw3Ljk3LDguMDMxYzAuMDIsMCwwLjA0MSwwLDAuMDYxLDBoMTQzLjk3NmM0LjQxOSwwLjAxOCw4LjAxNC0zLjU1MSw4LjAzMS03Ljk3MSBjMC0wLjAyLDAtMC4wNDEsMC0wLjA2MXYtMTQzLjk3OGMwLjAxNi00LjQxOS0zLjU1My04LjAxNC03Ljk3MS04LjAzYy0wLjAyLDAtMC4wNCwwLTAuMDYsMEgxNTIuMDEzIEMxNTEuNzM3LDEwMjAuMzU2LDE1MS40NjEsMTAyMC4zNTYsMTUxLjE4NiwxMDIwLjM3MUwxNTEuMTg2LDEwMjAuMzcxeiBNMTU5LjkyNiwxMDM2LjQzM2gxMjguMDMxdjEyNy45MTRIMTU5LjkyNiBMMTU5LjkyNiwxMDM2LjQzM0wxNTkuOTI2LDEwMzYuNDMzeiIvPjxwYXRoIHN0eWxlPSJmaWxsOiM1QTMzOTI7IiBkPSJNMjk1LjE2MiwxMDIwLjM3MWMtNC4xMTcsMC40MTEtNy4yNDEsMy44OTQtNy4yMDUsOC4wM3YxNDMuOTc4IGMtMC4wMTcsNC40MTgsMy41NTIsOC4wMTQsNy45Nyw4LjAzMWMwLjAyLDAsMC4wNDEsMCwwLjA2MSwwaDE0My45NzZjNC40MTksMC4wMTgsOC4wMTUtMy41NTEsOC4wMzItNy45NzEgYzAtMC4wMiwwLTAuMDQxLDAtMC4wNjF2LTE0My45NzhjMC4wMTYtNC40MTktMy41NTMtOC4wMTQtNy45NzEtOC4wM2MtMC4wMiwwLTAuMDQsMC0wLjA2LDBIMjk1Ljk4OSBDMjk1LjcxNCwxMDIwLjM1NiwyOTUuNDM4LDEwMjAuMzU2LDI5NS4xNjIsMTAyMC4zNzFMMjk1LjE2MiwxMDIwLjM3MXoiLz48cGF0aCBzdHlsZT0iZmlsbDojRUU3NDZDOyIgZD0iTTMwNC4wMiwxMDM2LjM3NGgxMjcuOTEzdjEyOC4wMzJIMzA0LjAyVjEwMzYuMzc0eiIvPjxwYXRoIHN0eWxlPSJmaWxsOiNGQjk3NjE7IiBkPSJNMzE1Ljk3NywxMDQ4LjM0MmgxMDR2MTA0LjA5NmgtMTA0TDMxNS45NzcsMTA0OC4zNDJMMzE1Ljk3NywxMDQ4LjM0MnoiLz48cGF0aCBzdHlsZT0iZmlsbDojNUEzMzkyOyIgZD0iTTcuOTE4LDExNjQuMzQ4Yy00LjM5NiwwLjA0OS03LjkzLDMuNjM1LTcuOTEzLDguMDMxdjE0My45NzcgYy0wLjAxNyw0LjM5NiwzLjUxNyw3Ljk4Miw3LjkxMyw4LjAzMWgxNDQuMDk1YzQuMzk2LTAuMDQ5LDcuOTMtMy42MzUsNy45MTMtOC4wMzF2LTE0My45NzdjMC4wMTctNC4zOTYtMy41MTctNy45ODItNy45MTMtOC4wMzEgQzE1Mi4wMTMsMTE2NC4zNDgsNy45MTgsMTE2NC4zNDgsNy45MTgsMTE2NC4zNDh6IE0xNS45NSwxMTgwLjQxaDEyOC4wMzF2MTI3LjkxNEgxNS45NSBDMTUuOTUsMTMwOC4zMjQsMTUuOTUsMTE4MC40MSwxNS45NSwxMTgwLjQxeiIvPjxwYXRoIHN0eWxlPSJmaWxsOiM1QTMzOTI7IiBkPSJNMTUyLjAxMywxMTY0LjM0OGMtNC40MTktMC4wMTgtOC4wMTUsMy41NTEtOC4wMzIsNy45NzFjMCwwLjAyLDAsMC4wNDEsMCwwLjA2MXYxNDMuOTc3IGMtMC4wMTcsNC40MTgsMy41NTIsOC4wMTQsNy45Nyw4LjAzMWMwLjAyLDAsMC4wNDEsMCwwLjA2MSwwaDE0My45NzZjNC40MTksMC4wMTgsOC4wMTQtMy41NTEsOC4wMzEtNy45NzEgYzAtMC4wMiwwLTAuMDQxLDAtMC4wNjF2LTE0My45NzdjMC4wMTctNC40MTgtMy41NTItOC4wMTQtNy45Ny04LjAzMWMtMC4wMiwwLTAuMDQxLDAtMC4wNjEsMEgxNTIuMDEzeiBNMTU5LjkyNiwxMTgwLjQxaDEyOC4wMzEgdjEyNy45MTRIMTU5LjkyNkwxNTkuOTI2LDExODAuNDFMMTU5LjkyNiwxMTgwLjQxeiIvPjxwYXRoIHN0eWxlPSJmaWxsOiM1QTMzOTI7IiBkPSJNMjk1Ljk4OSwxMTY0LjM0OGMtNC40MTktMC4wMTgtOC4wMTUsMy41NTEtOC4wMzIsNy45NzFjMCwwLjAyLDAsMC4wNDEsMCwwLjA2MXYxNDMuOTc3IGMtMC4wMTcsNC40MTgsMy41NTIsOC4wMTQsNy45Nyw4LjAzMWMwLjAyLDAsMC4wNDEsMCwwLjA2MSwwaDE0My45NzZjNC40MTksMC4wMTgsOC4wMTUtMy41NTEsOC4wMzItNy45NzEgYzAtMC4wMiwwLTAuMDQxLDAtMC4wNjF2LTE0My45NzdjMC4wMTctNC40MTgtMy41NTItOC4wMTQtNy45Ny04LjAzMWMtMC4wMiwwLTAuMDQxLDAtMC4wNjEsMEgyOTUuOTg5eiBNMzA0LjAyLDExODAuNDFoMTI3LjkxMyB2MTI3LjkxNEgzMDQuMDJMMzA0LjAyLDExODAuNDFMMzA0LjAyLDExODAuNDF6Ii8+PHBhdGggc3R5bGU9ImZpbGw6IzVBMzM5MjsiIGQ9Ik03LjkxOCwxMzA4LjMyMmMtNC4zOTYsMC4wNDktNy45MywzLjYzNS03LjkxMyw4LjAzMXYxNDMuOTc3IGMtMC4wMTcsNC4zOTYsMy41MTcsNy45ODIsNy45MTMsOC4wMzFoMTQ0LjA5NWM0LjM5Ni0wLjA0OSw3LjkzLTMuNjM1LDcuOTEzLTguMDMxdi0xNDMuOTc3YzAuMDE3LTQuMzk2LTMuNTE3LTcuOTgyLTcuOTEzLTguMDMxIEMxNTIuMDEzLDEzMDguMzIyLDcuOTE4LDEzMDguMzIyLDcuOTE4LDEzMDguMzIyeiBNMTUuOTUsMTMyNC4zODVoMTI4LjAzMXYxMjguMDMxSDE1Ljk1IEMxNS45NSwxNDUyLjQxNiwxNS45NSwxMzI0LjM4NSwxNS45NSwxMzI0LjM4NXoiLz48cGF0aCBzdHlsZT0iZmlsbDojNUEzMzkyOyIgZD0iTTE1Mi4wMTMsMTMwOC4zMjJjLTQuNDE5LTAuMDE4LTguMDE1LDMuNTUxLTguMDMyLDcuOTcxYzAsMC4wMiwwLDAuMDQxLDAsMC4wNjF2MTQzLjk3NyBjLTAuMDE3LDQuNDE4LDMuNTUyLDguMDE0LDcuOTcsOC4wMzFjMC4wMiwwLDAuMDQxLDAsMC4wNjEsMGgxNDMuOTc2YzQuNDE5LDAuMDE4LDguMDE0LTMuNTUxLDguMDMxLTcuOTcxIGMwLTAuMDIsMC0wLjA0MSwwLTAuMDYxdi0xNDMuOTc3YzAuMDE3LTQuNDE4LTMuNTUyLTguMDE0LTcuOTctOC4wMzFjLTAuMDIsMC0wLjA0MSwwLTAuMDYxLDBIMTUyLjAxM3ogTTE1OS45MjYsMTMyNC4zODUgaDEyOC4wMzF2MTI4LjAzMUgxNTkuOTI2TDE1OS45MjYsMTMyNC4zODVMMTU5LjkyNiwxMzI0LjM4NXoiLz48cGF0aCBzdHlsZT0iZmlsbDojNUEzMzkyOyIgZD0iTTI5NS45ODksMTMwOC4zMjJjLTQuNDE5LTAuMDE4LTguMDE1LDMuNTUxLTguMDMyLDcuOTcxYzAsMC4wMiwwLDAuMDQxLDAsMC4wNjF2MTQzLjk3NyBjLTAuMDE3LDQuNDE4LDMuNTUyLDguMDE0LDcuOTcsOC4wMzFjMC4wMiwwLDAuMDQxLDAsMC4wNjEsMGgxNDMuOTc2YzQuNDE5LDAuMDE4LDguMDE1LTMuNTUxLDguMDMyLTcuOTcxIGMwLTAuMDIsMC0wLjA0MSwwLTAuMDYxdi0xNDMuOTc3YzAuMDE3LTQuNDE4LTMuNTUyLTguMDE0LTcuOTctOC4wMzFjLTAuMDIsMC0wLjA0MSwwLTAuMDYxLDBIMjk1Ljk4OXogTTMwNC4wMiwxMzI0LjM4NWgxMjcuOTEzIHYxMjguMDMxSDMwNC4wMkwzMDQuMDIsMTMyNC4zODVMMzA0LjAyLDEzMjQuMzg1eiIvPjxwYXRoIHN0eWxlPSJmaWxsOiNFRTc0NkM7IiBkPSJNMzA0LjAyLDEzMjQuMzI2aDEyNy45MTN2MTI4LjAzMUgzMDQuMDJWMTMyNC4zMjZ6Ii8+PHBhdGggc3R5bGU9ImZpbGw6I0ZCOTc2MTsiIGQ9Ik0zMTUuOTc3LDEzMzYuMjk1aDEwNHYxMDQuMDk2aC0xMDRMMzE1Ljk3NywxMzM2LjI5NUwzMTUuOTc3LDEzMzYuMjk1eiIvPjxwYXRoIHN0eWxlPSJmaWxsOiNGRkZGRkY7IiBkPSJNMzQzLjExNSwxMzU2LjM5NGMtNC4zOTQsMC40NjctNy41NzgsNC40MDYtNy4xMTIsOC44MDFjMC4xOTgsMS44NjEsMS4wNDMsMy41OTYsMi4zODgsNC45IGw0Ny44MzUsNDcuODM2YzMuMTU2LDMuMTA1LDguMjMyLDMuMDY2LDExLjMzOC0wLjA5YzMuMDcyLTMuMTE5LDMuMDcyLTguMTI3LDAtMTEuMjQ4bC00Ny44MzQtNDcuODM2IGMtMS43MjItMS43NjYtNC4xNjMtMi42MzktNi42MTQtMi4zNjVMMzQzLjExNSwxMzU2LjM5NHoiLz48cGF0aCBzdHlsZT0iZmlsbDojRkZGRkZGOyIgZD0iTTM5MC45NDksMTM1Ni4zOTRjLTEuNzk3LDAuMjMtMy40NjMsMS4wNjQtNC43MjUsMi4zNjVsLTQ3LjgzNSw0Ny44MzYgYy0zLjEzMSwzLjEzMS0zLjEzMiw4LjIwNy0wLjAwMSwxMS4zNGMzLjEzMSwzLjEzMSw4LjIwOCwzLjEzMSwxMS4zMzksMGwwLDBsNDcuODM1LTQ3LjgzNiBjMy4xODgtMy4wNTksMy4yOTMtOC4xMjUsMC4yMzMtMTEuMzEzYy0xLjc3LTEuODQ0LTQuMzE0LTIuNzMyLTYuODQ3LTIuMzg5TDM5MC45NDksMTM1Ni4zOTR6Ii8+PHBhdGggc3R5bGU9ImZpbGw6I0ZGRkZGRjsiIGQ9Ik01NS4yOCwxMDY4LjQ0MWMtNC4zODcsMC41MjctNy41MTYsNC41MTItNi45ODksOC44OThjMC40NzgsMy45NzMsMy44MTUsNi45OCw3LjgxNSw3LjA0NWgzMS44OSBsLTI2LjMzOSwzNS4wOGMtMi42NzUsMy41MjEtMS45ODcsOC41NDcsMS41MzUsMTEuMjIxczguNTQ2LDEuOTg2LDExLjIyMS0xLjUzNWwzNS45MDYtNDcuOTUzIGMyLjYyNi0zLjU1MywxLjg3NS04LjU2My0xLjY3OS0xMS4xODljLTEuMzYxLTEuMDA2LTMuMDA2LTEuNTU1LTQuNjk5LTEuNTY2SDU2LjEwNyBDNTUuODMyLDEwNjguNDI4LDU1LjU1NiwxMDY4LjQyOCw1NS4yOCwxMDY4LjQ0MXoiLz48cGF0aCBzdHlsZT0iZmlsbDojRkZGRkZGOyIgZD0iTTc5Ljk2NSwxMzQ4LjM2MWMtMTMuMTYsMC4wMDItMjMuOTc2LDEwLjgxOC0yMy45NzYsMjMuOTc5YzAsMTMuMTYsMTAuODE2LDI0LjA5NCwyMy45NzYsMjQuMDk0IGMxMy4xNiwwLDIzLjk3Ny0xMC45MzQsMjMuOTc2LTI0LjA5NEMxMDMuOTQyLDEzNTkuMTgsOTMuMTI1LDEzNDguMzYxLDc5Ljk2NSwxMzQ4LjM2MXogTTc5Ljk2NSwxMzY0LjQyNiBjNC41MTMsMCw4LjAzMSwzLjM5OCw4LjAzMiw3LjkxNGMwLDQuNTEtMy41MTgsOC4wMzEtOC4wMzIsOC4wMzFjLTQuNTEzLDAtOC4wMzItMy41MTgtOC4wMzEtOC4wMzEgQzcxLjkzNCwxMzY3LjgyOCw3NS40NTIsMTM2NC40MjYsNzkuOTY1LDEzNjQuNDI2eiIvPjxwYXRoIHN0eWxlPSJmaWxsOiNGRkZGRkY7IiBkPSJNNzkuOTY1LDEzODAuMzY5Yy0xMy4xNiwwLTIzLjk3NiwxMC44MTgtMjMuOTc2LDIzLjk3OWMwLDEzLjE2LDEwLjgxNiwyMy45NzcsMjMuOTc2LDIzLjk3NyBjMTMuMTYsMCwyMy45NzctMTAuODE2LDIzLjk3Ni0yMy45NzdDMTAzLjk0MiwxMzkxLjE4Nyw5My4xMjUsMTM4MC4zNjksNzkuOTY1LDEzODAuMzY5eiBNNzkuOTY1LDEzOTYuNDMzIGM0LjUxMywwLDguMDMxLDMuMzk4LDguMDMyLDcuOTE0YzAsNC41MS0zLjUxOCw4LjAzMS04LjAzMiw4LjAzMWMtNC41MTMsMC04LjAzMi0zLjUyLTguMDMxLTguMDMxIEM3MS45MzQsMTM5OS44MzYsNzUuNDUyLDEzOTYuNDMzLDc5Ljk2NSwxMzk2LjQzM3oiLz48cGF0aCBzdHlsZT0iZmlsbDojRUU3NDZDOyIgZD0iTTE2MC4wNDQsMTE4MC4zNDloMTI3LjkxM3YxMjguMDMxSDE2MC4wNDRMMTYwLjA0NCwxMTgwLjM0OUwxNjAuMDQ0LDExODAuMzQ5eiIvPjxwYXRoIHN0eWxlPSJmaWxsOiNGQjk3NjE7IiBkPSJNMTcyLjAwMSwxMTkyLjMxOGgxMDR2MTA0LjA5NmgtMTA0VjExOTIuMzE4eiIvPjxwYXRoIHN0eWxlPSJmaWxsOiNGRkZGRkY7IiBkPSJNMTk5LjEzOSwxMjEyLjQxOGMtNC4zOTQsMC40NjctNy41NzgsNC40MDYtNy4xMTIsOC44MDFjMC4xOTgsMS44NjEsMS4wNDMsMy41OTYsMi4zODgsNC45IGw0Ny44MzUsNDcuODM2YzMuMTMxLDMuMTMxLDguMjA4LDMuMTMxLDExLjMzOSwwYzMuMTMxLTMuMTMzLDMuMTMxLTguMjA5LTAuMDAxLTExLjM0bDAsMGwtNDcuODM1LTQ3LjgzNiBjLTEuNzIzLTEuNzY2LTQuMTYzLTIuNjM3LTYuNjE0LTIuMzYzTDE5OS4xMzksMTIxMi40MTh6Ii8+PHBhdGggc3R5bGU9ImZpbGw6I0ZGRkZGRjsiIGQ9Ik0yNDYuOTczLDEyMTIuNDE4Yy0xLjc5NywwLjIzLTMuNDYzLDEuMDY0LTQuNzI1LDIuMzY1bC00Ny44MzUsNDcuODM2IGMtMy4xNTUsMy4xMDctMy4xOTUsOC4xODQtMC4wODgsMTEuMzM4YzMuMTA3LDMuMTU2LDguMTgzLDMuMTk1LDExLjMzOCwwLjA4OGMwLjAzLTAuMDI5LDAuMDU5LTAuMDU5LDAuMDg5LTAuMDg4bDQ3LjgzNS00Ny44MzQgYzMuMTg5LTMuMDU5LDMuMjk2LTguMTIzLDAuMjM4LTExLjMxM2MtMS43Ny0xLjg0Ni00LjMxNy0yLjczNC02Ljg1Mi0yLjM5MVYxMjEyLjQxOHoiLz48cGF0aCBzdHlsZT0iZmlsbDojRkZGRkZGOyIgZD0iTTM0My45NDIsMTA2OC4zMjJjLTQuNDE5LTAuMDMzLTguMDI3LDMuNTIzLTguMDYsNy45NDFjLTAuMDE2LDIuMjIzLDAuODkyLDQuMzUyLDIuNTA4LDUuODc3IGw0Ny44MzUsNDcuODM2YzMuMTMxLDMuMTMxLDguMjA4LDMuMTMxLDExLjMzOSwwYzMuMTMxLTMuMTMzLDMuMTMxLTguMjA5LTAuMDAxLTExLjM0bC00Ny44MzUtNDcuODM2IEMzNDguMjIsMTA2OS4yMTksMzQ2LjEyOCwxMDY4LjMyMiwzNDMuOTQyLDEwNjguMzIyTDM0My45NDIsMTA2OC4zMjJ6Ii8+PHBhdGggc3R5bGU9ImZpbGw6I0ZGRkZGRjsiIGQ9Ik0zOTAuOTQ5LDEwNjguNDQxYy0xLjc5NywwLjIzLTMuNDYzLDEuMDY0LTQuNzI1LDIuMzY1bC00Ny44MzUsNDcuODM2IGMtMy4xNTYsMy4xMDUtMy4xOTYsOC4xODItMC4wODksMTEuMzM4YzMuMTA2LDMuMTU2LDguMTgzLDMuMTk1LDExLjMzOCwwLjA5YzAuMDMtMC4wMjksMC4wNi0wLjA2MSwwLjA5LTAuMDlsNDcuODM1LTQ3LjgzNiBjMy4xODgtMy4wNTksMy4yOTMtOC4xMjUsMC4yMzMtMTEuMzEzYy0xLjc3LTEuODQ0LTQuMzE0LTIuNzMyLTYuODQ3LTIuMzg5TDM5MC45NDksMTA2OC40NDF6Ii8+PHBhdGggc3R5bGU9ImZpbGw6I0ZGRkZGRjsiIGQ9Ik05MS42NTgsMTIwNC4zODdjLTIuNDI0LDAuMDc2LTQuNjgzLDEuMjQ4LTYuMTQyLDMuMTg2bC0zNS45MDYsNDcuODM2IGMtMi42MjYsMy41NTMtMS44NzUsOC41NjMsMS42NzksMTEuMTg5YzEuMzYxLDEuMDA2LDMuMDA2LDEuNTU1LDQuNjk5LDEuNTY2aDI3Ljg3NHY4LjE1Yy0wLjM3Miw0LjQwMiwyLjg5Niw4LjI3Myw3LjI5OSw4LjY0NSBjNC40MDMsMC4zNzMsOC4yNzQtMi44OTUsOC42NDUtNy4yOTljMC4wMzgtMC40NDcsMC4wMzgtMC44OTgsMC0xLjM0NnYtOC4xNWg0LjAxNmM0LjQwMywwLjM3Nyw4LjI3Ny0yLjg4Nyw4LjY1NC03LjI4OSBzLTIuODg3LTguMjc3LTcuMjktOC42NTRjLTAuNDU0LTAuMDM5LTAuOTEtMC4wMzktMS4zNjQsMGgtNC4wMTZ2LTM5LjgwM2MwLjAxOC00LjQxOC0zLjU1LTguMDE2LTcuOTY5LTguMDMzIEM5MS43NzksMTIwNC4zODUsOTEuNzE4LDEyMDQuMzg1LDkxLjY1OCwxMjA0LjM4N3ogTTgzLjg2MywxMjM2LjM5MnYxNS44MjhsLTExLjgxMS0wLjE2bDExLjgxMS0xNS43MDlWMTIzNi4zOTJ6Ii8+PHBhdGggc3R5bGU9ImZpbGw6I0ZGRkZGRjsiIGQ9Ik0zMDMuOTYxLDExODAuMzQ5aDEyOC4wMzJ2MTI4LjAzMUgzMDMuOTYxVjExODAuMzQ5eiIvPjxwYXRoIHN0eWxlPSJmaWxsOiNFQkZFRkY7IiBkPSJNMzE1Ljk3NywxMTkyLjMxOGgxMDR2MTA0LjA5NmgtMTA0VjExOTIuMzE4eiIvPjxwYXRoIHN0eWxlPSJmaWxsOiNGRkZGRkY7IiBkPSJNMTU5Ljk4NSwxMzI0LjMyNmgxMjguMDMydjEyOC4wMzFIMTU5Ljk4NUwxNTkuOTg1LDEzMjQuMzI2TDE1OS45ODUsMTMyNC4zMjZ6Ii8+PHBhdGggc3R5bGU9ImZpbGw6I0VCRkVGRjsiIGQ9Ik0xNzIuMDAxLDEzMzYuMjk1aDEwNHYxMDQuMDk2aC0xMDRWMTMzNi4yOTV6Ii8+PC9nPjwvc3ZnPg==" alt="Sudoku Icon">
+  </span>
+	<button aria-label="Restart Game" onclick="initBoard()">Restart</button>
+	<span class="github-icon" title="Click to view source code on GitHub">
+    <a href="https://github.com/ctrl-escp/sudoku" target="_blank">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="white" fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+    </a>
+  </span>
+</header>
 <table id="board">
 	<tbody>
-	<tr id="row-1">
-		<td class="col-1">
+	<tr>
+		<td>
 			<table>
 				<tbody>
-				<tr class="top">
+				<tr>
 					<td data-cell="1-1"><span data-name="value"></span></td>
 					<td data-cell="1-2"><span data-name="value"></span></td>
 					<td data-cell="1-3"><span data-name="value"></span></td>
 				</tr>
-				<tr class="middle">
-					<td data-cell="1-4"><span data-name="value"></span></td>
-					<td data-cell="1-5"><span data-name="value"></span></td>
-					<td data-cell="1-6"><span data-name="value"></span></td>
-				</tr>
-				<tr class="bottom">
-					<td data-cell="1-7"><span data-name="value"></span></td>
-					<td data-cell="1-8"><span data-name="value"></span></td>
-					<td data-cell="1-9"><span data-name="value"></span></td>
-				</tr>
-				</tbody>
-			</table>
-		</td>
-		<td class="col-2">
-			<table>
-				<tbody>
-				<tr class="top">
+				<tr>
 					<td data-cell="2-1"><span data-name="value"></span></td>
 					<td data-cell="2-2"><span data-name="value"></span></td>
 					<td data-cell="2-3"><span data-name="value"></span></td>
 				</tr>
-				<tr class="middle">
-					<td data-cell="2-4"><span data-name="value"></span></td>
-					<td data-cell="2-5"><span data-name="value"></span></td>
-					<td data-cell="2-6"><span data-name="value"></span></td>
-				</tr>
-				<tr class="bottom">
-					<td data-cell="2-7"><span data-name="value"></span></td>
-					<td data-cell="2-8"><span data-name="value"></span></td>
-					<td data-cell="2-9"><span data-name="value"></span></td>
-				</tr>
-				</tbody>
-			</table>
-		</td>
-		<td class="col-3">
-			<table>
-				<tbody>
-				<tr class="top">
+				<tr>
 					<td data-cell="3-1"><span data-name="value"></span></td>
 					<td data-cell="3-2"><span data-name="value"></span></td>
 					<td data-cell="3-3"><span data-name="value"></span></td>
 				</tr>
-				<tr class="middle">
+				</tbody>
+			</table>
+		</td>
+		<td>
+			<table>
+				<tbody>
+				<tr>
+					<td data-cell="1-4"><span data-name="value"></span></td>
+					<td data-cell="1-5"><span data-name="value"></span></td>
+					<td data-cell="1-6"><span data-name="value"></span></td>
+				</tr>
+				<tr>
+					<td data-cell="2-4"><span data-name="value"></span></td>
+					<td data-cell="2-5"><span data-name="value"></span></td>
+					<td data-cell="2-6"><span data-name="value"></span></td>
+				</tr>
+				<tr>
 					<td data-cell="3-4"><span data-name="value"></span></td>
 					<td data-cell="3-5"><span data-name="value"></span></td>
 					<td data-cell="3-6"><span data-name="value"></span></td>
 				</tr>
-				<tr class="bottom">
+				</tbody>
+			</table>
+		</td>
+		<td>
+			<table>
+				<tbody>
+				<tr>
+					<td data-cell="1-7"><span data-name="value"></span></td>
+					<td data-cell="1-8"><span data-name="value"></span></td>
+					<td data-cell="1-9"><span data-name="value"></span></td>
+				</tr>
+				<tr>
+					<td data-cell="2-7"><span data-name="value"></span></td>
+					<td data-cell="2-8"><span data-name="value"></span></td>
+					<td data-cell="2-9"><span data-name="value"></span></td>
+				</tr>
+				<tr>
 					<td data-cell="3-7"><span data-name="value"></span></td>
 					<td data-cell="3-8"><span data-name="value"></span></td>
 					<td data-cell="3-9"><span data-name="value"></span></td>
@@ -182,134 +224,135 @@
 			</table>
 		</td>
 	</tr>
-	<tr id="row-2">
-		<td class="col-1">
-			<table>
-				<tbody>
-				<tr class="top">
-					<td data-cell="4-1"><span data-name="value"></span></td>
-					<td data-cell="4-2"><span data-name="value"></span></td>
-					<td data-cell="4-3"><span data-name="value"></span></td>
-				</tr>
-				<tr class="middle">
-					<td data-cell="4-4"><span data-name="value"></span></td>
-					<td data-cell="4-5"><span data-name="value"></span></td>
-					<td data-cell="4-6"><span data-name="value"></span></td>
-				</tr>
-				<tr class="bottom">
-					<td data-cell="4-7"><span data-name="value"></span></td>
-					<td data-cell="4-8"><span data-name="value"></span></td>
-					<td data-cell="4-9"><span data-name="value"></span></td>
-				</tr>
-				</tbody>
-			</table>
-		</td>
-		<td class="col-2">
-			<table>
-				<tbody>
-				<tr class="top">
-					<td data-cell="5-1"><span data-name="value"></span></td>
-					<td data-cell="5-2"><span data-name="value"></span></td>
-					<td data-cell="5-3"><span data-name="value"></span></td>
-				<tr class="middle">
-					<td data-cell="5-4"><span data-name="value"></span></td>
-					<td data-cell="5-5"><span data-name="value"></span></td>
-					<td data-cell="5-6"><span data-name="value"></span></td>
-				</tr>
-				<tr class="bottom">
-					<td data-cell="5-7"><span data-name="value"></span></td>
-					<td data-cell="5-8"><span data-name="value"></span></td>
-					<td data-cell="5-9"><span data-name="value"></span></td>
-				</tr>
-				</tbody>
-			</table>
-		</td>
-		<td class="col-3">
-			<table>
-				<tbody>
-				<tr class="top">
-					<td data-cell="6-1"><span data-name="value"></span></td>
-					<td data-cell="6-2"><span data-name="value"></span></td>
-					<td data-cell="6-3"><span data-name="value"></span></td>
-				</tr>
-				<tr class="middle">
-					<td data-cell="6-4"><span data-name="value"></span></td>
-					<td data-cell="6-5"><span data-name="value"></span></td>
-					<td data-cell="6-6"><span data-name="value"></span></td>
-				</tr>
-				<tr class="bottom">
-					<td data-cell="6-7"><span data-name="value"></span></td>
-					<td data-cell="6-8"><span data-name="value"></span></td>
-					<td data-cell="6-9"><span data-name="value"></span></td>
-				</tr>
-				</tbody>
-			</table>
-		</td>
+	<tr>
+    <td>
+      <table>
+        <tbody>
+        <tr>
+          <td data-cell="4-1"><span data-name="value"></span></td>
+          <td data-cell="4-2"><span data-name="value"></span></td>
+          <td data-cell="4-3"><span data-name="value"></span></td>
+        </tr>
+        <tr>
+          <td data-cell="5-1"><span data-name="value"></span></td>
+          <td data-cell="5-2"><span data-name="value"></span></td>
+          <td data-cell="5-3"><span data-name="value"></span></td>
+        </tr>
+        <tr>
+          <td data-cell="6-1"><span data-name="value"></span></td>
+          <td data-cell="6-2"><span data-name="value"></span></td>
+          <td data-cell="6-3"><span data-name="value"></span></td>
+        </tr>
+        </tbody>
+      </table>
+    </td>
+    <td>
+      <table>
+        <tbody>
+        <tr>
+          <td data-cell="4-4"><span data-name="value"></span></td>
+          <td data-cell="4-5"><span data-name="value"></span></td>
+          <td data-cell="4-6"><span data-name="value"></span></td>
+        </tr>
+        <tr>
+          <td data-cell="5-4"><span data-name="value"></span></td>
+          <td data-cell="5-5"><span data-name="value"></span></td>
+          <td data-cell="5-6"><span data-name="value"></span></td>
+        </tr>
+        <tr>
+          <td data-cell="6-4"><span data-name="value"></span></td>
+          <td data-cell="6-5"><span data-name="value"></span></td>
+          <td data-cell="6-6"><span data-name="value"></span></td>
+        </tr>
+        </tbody>
+      </table>
+    </td>
+    <td>
+      <table>
+        <tbody>
+        <tr>
+          <td data-cell="4-7"><span data-name="value"></span></td>
+          <td data-cell="4-8"><span data-name="value"></span></td>
+          <td data-cell="4-9"><span data-name="value"></span></td>
+        </tr>
+        <tr>
+          <td data-cell="5-7"><span data-name="value"></span></td>
+          <td data-cell="5-8"><span data-name="value"></span></td>
+          <td data-cell="5-9"><span data-name="value"></span></td>
+        </tr>
+        <tr>
+          <td data-cell="6-7"><span data-name="value"></span></td>
+          <td data-cell="6-8"><span data-name="value"></span></td>
+          <td data-cell="6-9"><span data-name="value"></span></td>
+        </tr>
+        </tbody>
+      </table>
+    </td>
 	</tr>
-	<tr id="row-3">
-		<td class="col-1">
-			<table>
-				<tbody>
-				<tr class="top">
-					<td data-cell="7-1"><span data-name="value"></span></td>
-					<td data-cell="7-2"><span data-name="value"></span></td>
-					<td data-cell="7-3"><span data-name="value"></span></td>
-				</tr>
-				<tr class="middle">
-					<td data-cell="7-4"><span data-name="value"></span></td>
-					<td data-cell="7-5"><span data-name="value"></span></td>
-					<td data-cell="7-6"><span data-name="value"></span></td>
-				</tr>
-				<tr class="bottom">
-					<td data-cell="7-7"><span data-name="value"></span></td>
-					<td data-cell="7-8"><span data-name="value"></span></td>
-					<td data-cell="7-9"><span data-name="value"></span></td>
-				</tr>
-				</tbody>
-			</table>
-		</td>
-		<td class="col-2">
-			<table>
-				<tbody>
-				<tr class="top">
-					<td data-cell="8-1"><span data-name="value"></span></td>
-					<td data-cell="8-2"><span data-name="value"></span></td>
-					<td data-cell="8-3"><span data-name="value"></span></td>
-				</tr>
-				<tr class="middle">
-					<td data-cell="8-4"><span data-name="value"></span></td>
-					<td data-cell="8-5"><span data-name="value"></span></td>
-					<td data-cell="8-6"><span data-name="value"></span></td>
-				</tr>
-				<tr class="bottom">
-					<td data-cell="8-7"><span data-name="value"></span></td>
-					<td data-cell="8-8"><span data-name="value"></span></td>
-					<td data-cell="8-9"><span data-name="value"></span></td>
-				</tr>
-				</tbody>
-			</table>
-		</td>
-		<td class="col-3">
-			<table>
-				<tbody>
-				<tr class="top">
-					<td data-cell="9-1"><span data-name="value"></span></td>
-					<td data-cell="9-2"><span data-name="value"></span></td>
-					<td data-cell="9-3"><span data-name="value"></span></td>
-				</tr>
-				<tr class="middle">
-					<td data-cell="9-4"><span data-name="value"></span></td>
-					<td data-cell="9-5"><span data-name="value"></span></td>
-					<td data-cell="9-6"><span data-name="value"></span></td>
-				</tr>
-				<tr class="bottom">
-					<td data-cell="9-7"><span data-name="value"></span></td>
-					<td data-cell="9-8"><span data-name="value"></span></td>
-					<td data-cell="9-9"><span data-name="value"></span></td>
-				</tr>
-				</tbody>
-			</table>
-		</td>
+	<tr>
+    <td>
+      <table>
+        <tbody>
+        <tr>
+          <td data-cell="7-1"><span data-name="value"></span></td>
+          <td data-cell="7-2"><span data-name="value"></span></td>
+          <td data-cell="7-3"><span data-name="value"></span></td>
+        </tr>
+        <tr>
+          <td data-cell="8-1"><span data-name="value"></span></td>
+          <td data-cell="8-2"><span data-name="value"></span></td>
+          <td data-cell="8-3"><span data-name="value"></span></td>
+        </tr>
+        <tr>
+          <td data-cell="9-1"><span data-name="value"></span></td>
+          <td data-cell="9-2"><span data-name="value"></span></td>
+          <td data-cell="9-3"><span data-name="value"></span></td>
+        </tr>
+        </tbody>
+      </table>
+    </td>
+    <td>
+      <table>
+        <tbody>
+        <tr>
+          <td data-cell="7-4"><span data-name="value"></span></td>
+          <td data-cell="7-5"><span data-name="value"></span></td>
+          <td data-cell="7-6"><span data-name="value"></span></td>
+        </tr>
+        <tr>
+          <td data-cell="8-4"><span data-name="value"></span></td>
+          <td data-cell="8-5"><span data-name="value"></span></td>
+          <td data-cell="8-6"><span data-name="value"></span></td>
+        </tr>
+        <tr>
+          <td data-cell="9-4"><span data-name="value"></span></td>
+          <td data-cell="9-5"><span data-name="value"></span></td>
+          <td data-cell="9-6"><span data-name="value"></span></td>
+        </tr>
+        </tbody>
+      </table>
+    </td>
+    <td>
+      <table>
+        <tbody>
+        <tr>
+          <td data-cell="7-7"><span data-name="value"></span></td>
+          <td data-cell="7-8"><span data-name="value"></span></td>
+          <td data-cell="7-9"><span data-name="value"></span></td>
+        </tr>
+        <tr>
+          <td data-cell="8-7"><span data-name="value"></span></td>
+          <td data-cell="8-8"><span data-name="value"></span></td>
+          <td data-cell="8-9"><span data-name="value"></span></td>
+        </tr>
+        <tr>
+          <td data-cell="9-7"><span data-name="value"></span></td>
+          <td data-cell="9-8"><span data-name="value"></span></td>
+          <td data-cell="9-9"><span data-name="value"></span></td>
+        </tr>
+        </tbody>
+      </table>
+    </td>
 	</tr>
 	</tbody>
 </table>
@@ -363,10 +406,6 @@
 	</tr>
 	</tbody>
 </table>
-<div class="controls">
-	<button id="about" onclick="toggleAboutModal()" aria-label="About">About</button>
-	<button id="settings" aria-label="Settings">Settings</button>
-</div>
 <template id="pencil-board">
 	<table data-name="pencil-marks">
 		<tbody>
@@ -395,12 +434,12 @@
 		<br>
 		https://github.com/ctrl-escp/sudoku
 	</p>
-	<button aria-label="Close Modal" onclick="toggleAboutModal(true)">Close</button>
+	<button aria-label="Close Modal" onclick="document.getElementById('about-modal').close()">Close</button>
 </dialog>
 <dialog id="game-won-modal">
 	<h2>Congratulations!</h2>
-	<p>You've solved the puzzle!</p>
-	<button aria-label="Close Modal" onclick="toggleGameWonModal(true)">Close</button>
+	<p>You solved the puzzle!</p>
+	<button aria-label="Close Modal" onclick="document.getElementById('game-won-modal').close()">Close</button>
 </dialog>
 <script>
 	const board = document.getElementById('board');
@@ -408,64 +447,82 @@
 	let selectedBtn;
 	let isPencil = false;
 	let isEraser = false;
+  let currentSolution;
 
-	function getBoardValues() {
-		return Array.from(document.querySelectorAll('[data-name="value"]'), v => v.innerText || 0).join('');
+  /**
+   * Retrieve all values from the board in the form of 9 rows
+   * @returns {number[][]}
+   */
+  function getBoardValues() {
+		const vals = Array.from(document.querySelectorAll('[data-name="value"]'), v => v.innerText || 0);
+    /*
+    Since the values are returned as a concatenation of boxes:
+        123 123 123
+        456 456 456  => 123456789123456789123456789
+        789 789 789
+    they will be parsed into rows => 123123123456456456789789789
+     */
+    const board = Array.from({length: 9}, () => []);
+    let rowIdx = 0;
+    let rowDiff = 0;
+    for (let i = 0; i < 81; i += 3) {
+      if (rowDiff > 2) rowDiff = 0;
+      rowIdx = (Math.floor(i / 27) * 3) + rowDiff;
+      board[rowIdx].push(...vals.slice(i, i + 3));
+      rowDiff++;
+    }
+    return board;
 	}
 
-	function toggleAboutModal(close=false) {
-		document.getElementById('about-modal')[close ? 'close' : 'showModal']();
-	}
-	function toggleGameWonModal(close=false) {
-		document.getElementById('game-won-modal')[close ? 'close' : 'showModal']();
-	}
-
-	function togglePencil() {
+  function togglePencil() {
 		isPencil = !isPencil;
 		document.querySelector('.pencil').classList[isPencil ? 'remove' : 'add']('hide');
 		document.querySelector('.pen').classList[isPencil ? 'add' : 'remove']('hide');
 	}
 
-	function toggleEraser() {
+  function toggleEraser() {
 		isEraser = !isEraser;
 		document.getElementById('eraser').classList[isEraser ? 'add' : 'remove']('active');
 	}
 
-	function getFrame(num) {
-		return Array.from(board.querySelectorAll(`[data-cell^="${num}"]`));
-	}
-
-	function clearCell(cell) {
-		cell.children[0].innerText = '';
-		cell.children[1].querySelectorAll('td').forEach(el => el.innerText = '');
-	}
-
-	function markWithPencil(cell, num) {
-		if (cell.children[0].innerText) return;
-		const pencilBoard = cell.children[1];
-		pencilBoard.classList.remove('hide');
-		const mark = pencilBoard.querySelector(`td[data-pencil="${num}"]`);
-		mark.innerText = mark.innerText === String(num) ? '' : num;
-	}
-
-	function cellClick(e) {
+  /**
+   * Callback function for clicking on cells
+   * @param {event} e
+   */
+  function cellClick(e) {
 		const cell = e.currentTarget;
+    // Clear previously highlighted cell and highlight the one currently clicked
+    // If the same cell is clicked, simply toggle the highlight
 		selectedCell?.classList?.remove('selected');
 		selectedCell = selectedCell === cell ? null : cell;
 		selectedCell?.classList?.add('selected');
 
-		if (!e.target.dataset.hardcoded) {
-			if (isEraser) clearCell(cell);
+		// Only change cells which aren't marked as hardcoded
+    if (!e.target.dataset.hardcoded) {
+			if (isEraser) {
+        cell.children[0].innerText = '';
+        cell.children[1].querySelectorAll('td').forEach(el => el.innerText = '');
+      }
 			else if (selectedBtn) {
-				if (isPencil) markWithPencil(cell, selectedBtn.id);
+        const val = selectedBtn.id;
+				if (isPencil) {
+          // Show the pencil board and toggle the digit on it
+          if (cell.children[0].innerText) return;
+          const pencilBoard = cell.children[1];
+          pencilBoard.classList.remove('hide');
+          const mark = pencilBoard.querySelector(`td[data-pencil="${val}"]`);
+          mark.innerText = mark.innerText === String(val) ? '' : val;
+        }
 				else {
-					if (cell.children[0].innerText === String(selectedBtn.id)) {
+          // If the cell contains the same digit, remove it and display the pencil board
+					if (cell.children[0].innerText === String(val)) {
 						cell.children[0].innerText = '';
 						cell.children[1].classList.remove('hide');
 					} else {
+            // Otherwise write the value into the cell and check if the game is solved
 						cell.children[1].classList.add('hide');
-						cell.children[0].innerText = selectedBtn.id;
-						if (isSolved(getBoardValues())) toggleGameWonModal();
+						cell.children[0].innerText = val;
+						if (isBoardSolved(getBoardValues())) document.getElementById('game-won-modal').showModal();
 					}
 				}
 			}
@@ -474,60 +531,72 @@
 		}
 	}
 
-	function highlightNumbersOnBoard(num) {
-		board.querySelectorAll(`[data-name="value"], [data-pencil]`).forEach(el => {
-			if (num && (el.innerText === num || el.dataset.pencil === num)) el.classList.add('highlight-number');
-			else el.classList.remove('highlight-number');
-		});
+  /**
+   * @param {string} sequence
+   * @returns {boolean} True if the sequence contains 9 digits between 1 and 9 with no redundancies
+   */
+  function validate1to9Range(sequence) {
+		return (new RegExp('^[1-9]{9}$')).test(sequence) && !(new RegExp('(\\d).*\\1').test(sequence));
 	}
 
-	function* testBoardNums() {
-		const l = '719286534836451729425397816490178653573690148168543972821945367364287915759631284'.split('');
-		for (let i = 0; i < l.length; i++) yield l[i];
-	}
+  /**
+   * @param {number[][]} board
+   * @returns {boolean} True if the bored is a valid sudoku board
+   */
+  function isBoardSolved(board) {
+    const cols = Array.from({length: 9}, () => []);
+    for (const row of board) {
+      if (!validate1to9Range(row.join(''))) return false;
+      for (let i = 0; i < 9; i++) cols[i].push(row[i]);
+    }
+    for (let i = 0; i < 9; i++) {
+      if (!validate1to9Range(cols[i].join(''))) return false;
+    }
+    return true;
+  }
 
-	function isSolved(values) {
-		function verifyRange(nums) {
-			return nums.length === 9 && !(new RegExp('(\\d).*\\1').test(nums) || nums.includes('0'));
-		}
-		const box = [];
-		const rows = Array.from({length: 9}, () => []);
-		const cols = Array.from({length: 9}, () => []);
-		for (let i = 0; i < values.length; i++) {
-			const val = values[i];
-			const globalBoxIndex = Math.floor(i / 9);
-			const localBoxIndex = i % 9;
-			const rowIdx = 3 * Math.floor(globalBoxIndex / 3) + Math.floor(localBoxIndex / 3);
-			const colIdx = 3 * (globalBoxIndex % 3) + (localBoxIndex % 3);
-			// Add value to the corresponding row and column
-			rows[rowIdx].push(val);
-			cols[colIdx].push(val);
-			box.push(val);
-			// Check for missing or duplicates in 3x3 boxes
-			if (box.length === 9) {
-				if (!verifyRange(box.join(''))) return false;
-				box.length = 0;
-			}
-		}
-		// Check for missing or duplicates in rows and columns
+  /**
+   * @param {number[][]} board
+   * @param {number} [difficulty]
+   * @returns {number[][]}
+   */
+  function generateChallenge(board, difficulty = 1) {
+    const maxRemovedDigits = 40;
+    let numOfDigitsToRemove = Math.floor(maxRemovedDigits / difficulty);
+    const challenge = JSON.parse(JSON.stringify(board));
+    const rows = getRandomArrayLength9();
+    const cols = getRandomArrayLength9();
+    for (; numOfDigitsToRemove; numOfDigitsToRemove--) {
+      if (!rows.length) {
+        rows.push(...getRandomArrayLength9());
+        cols.push(...getRandomArrayLength9());
+      }
+      const row = rows.shift();
+      const col = cols.shift();
+      challenge[row][col] = 0;
+    }
+    return challenge;
+  }
+
+  /**
+   * Generate a new challenge and hard code the available values on a clean board.
+   * @param {number} [difficulty]
+   */
+  function initBoard(difficulty = 1) {
+		currentSolution = generateSudoku();
+    quickPrintBoard(currentSolution);
+    const challenge = generateChallenge(currentSolution, difficulty);
+    const values = JSON.parse(JSON.stringify(challenge));
 		for (let i = 0; i < 9; i++) {
-			if (!(verifyRange(rows[i].join('')) && verifyRange(cols[i].join('')))) return false;
-		}
-		return true;
-	}
-
-	function initBoard() {
-		const nums = testBoardNums();
-		for (let i = 1; i < 10; i++) {
-			const frame = getFrame(i);
-			for (const j in frame) {
-				const cell = frame[j];
-				const num = nums.next().value;
-				const isValid = num > 0;
-				cell.children[0].innerText = isValid ? num : '';
-				if (isValid) cell.dataset.hardcoded = 'true';
+			const row = Array.from(board.querySelectorAll(`[data-cell^="${i + 1}"]`));
+			for (const cell of row) {
+				const val = values[i].shift();
+				const isHardcodedValue = val > 0;
+				cell.children[0].innerText = isHardcodedValue ? val : '';
+				if (isHardcodedValue) cell.dataset.hardcoded = 'true';
 				else {
 					const pencilBoard = document.getElementById('pencil-board').content.children[0].cloneNode(true);
+					cell.querySelector('[data-name="pencil-marks"]')?.remove();
 					cell.appendChild(pencilBoard);
 				}
 				cell.removeEventListener('click', cellClick);
@@ -536,14 +605,21 @@
 		}
 	}
 
-	function initKeyboard() {
+  /**
+   * Initialize the numeric keyboard click behavior
+   */
+  function initKeyboard() {
 		function keyClick(e) {
 			const btn = e.target;
 			if (isEraser) toggleEraser();
 			selectedBtn?.classList?.remove('selected');
 			selectedBtn = selectedBtn === btn ? null : btn;
 			selectedBtn?.classList?.add('selected');
-			highlightNumbersOnBoard(selectedBtn?.id);
+      const val = selectedBtn?.id;
+      board.querySelectorAll(`[data-name="value"], [data-pencil]`).forEach(el => {
+        if (val && (el.innerText === val || el.dataset.pencil === val)) el.classList.add('highlight-number');
+        else el.classList.remove('highlight-number');
+      })
 		}
 		const keyboardButtons = document.querySelectorAll('#keyboard button');
 		for (let i = 0; i < keyboardButtons.length; i++) {
@@ -555,6 +631,113 @@
 
 	initKeyboard();
 	initBoard();
+
+	function getRandomArrayLength9(startAt0 = true) {
+		const arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+    // Remove the first or last digit based on the start position - 0 or 1
+    // noinspection JSValidateTypes
+    arr[startAt0 ? 'pop' : 'shift']();
+		for (let i = arr.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[arr[i], arr[j]] = [arr[j], arr[i]];
+		}
+		return arr;
+	}
+
+	function generateSudoku() {
+		function getBox(b, r, c) {
+			const boxStartRow = Math.floor(r / 3) * 3;
+			const boxStartCol = Math.floor(c / 3) * 3;
+			const box = [];
+
+			for (let row = boxStartRow; row < boxStartRow + 3; row++) {
+				for (let col = boxStartCol; col < boxStartCol + 3; col++) {
+					box.push(b[row][col]);
+				}
+			}
+			return box;
+		}
+		function isValidPlacement(b, r, c, d) {
+			if (b[r].includes(d)) return false;
+			for (let i = 0; i < 9; i++) {
+				if (b[i][c] === d) return false;
+			}
+			return !getBox(b, r, c).includes(d);
+		}
+
+		function placeDigitInCell(b, r, c, d) {
+			return isValidPlacement(b, r, c, d) && !b[r][c] && (b[r][c] = d) && true;
+		}
+
+    function getAllDigitsOnBoard(b) {
+      let d = [];
+      for (let r = 0; r < 9; r++) {
+        for (let c = 0; c < 9; c++) {
+          if (b[r][c]) d.push(b[r][c])
+        }
+      }
+      return [...new Set(d)];
+    }
+
+		function populateBoardWithDigit(b, d) {
+			for (let row = 0; row < 9; row++) {
+				const cols = getRandomArrayLength9();
+				if (b[row].includes(d)) continue;
+				let col = cols.shift();
+        let isPlaced = false;
+				while (col !== undefined) {
+          if (placeDigitInCell(b, row, col, d)) {
+            isPlaced = true;
+            break;
+          }
+					col = cols.shift();
+				}
+				if (!isPlaced) return false;
+			}
+			return true;
+		}
+
+		let board = Array.from({length: 9}, () => Array.from({length: 9}, () => 0));
+
+		const boardStates = [JSON.stringify(board)];
+		const digits = getRandomArrayLength9(false);
+    let failureCounter = 9;
+    let statesCounter = boardStates.length;
+		while (digits.length && boardStates.length) {
+      if (!failureCounter) {
+        const previousBoardDigits = getAllDigitsOnBoard(board);
+        board = JSON.parse(boardStates.pop());
+        const currentBoardDigits = getAllDigitsOnBoard(board);
+        const missingDigit = previousBoardDigits.filter(n => !currentBoardDigits.includes(n));
+        digits.push(...missingDigit);
+        failureCounter = 9;
+      }
+      boardStates.push(JSON.stringify(board));
+			const digit = digits.shift();
+			if (!populateBoardWithDigit(board, digit)) {
+				digits.push(digit);
+        board = JSON.parse(boardStates.pop());
+        if (statesCounter === boardStates.length) failureCounter--;
+        else {
+          statesCounter = boardStates.length;
+          failureCounter = 8;
+        }
+			}
+		}
+
+		return board;
+	}
+
+  function quickPrintBoard(board) {
+    let b = '';
+    for (let i = 0; i < 9; i++) {
+      const row = board[i];
+      b += [row.slice(0, 3).join(''), row.slice(3, 6).join(''), row.slice(6).join('')].join(' ');
+      b += !((i + 1) % 3) ? '\n\n' : '\n';
+    }
+    console.log(b);
+  }
+
 </script>
 </body>
 </html>
