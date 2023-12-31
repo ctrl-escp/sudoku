@@ -13,6 +13,7 @@ In no particular order:
 - [ ] Mark wrong cells
   - [ ] Absolute error (test against solution)
   - [ ] Relative error (collision with row/col/box)
+- [ ] Restart puzzle
 ### Nice to Have Features
 - [x] Game timer
   - [ ] Continued over sessions
