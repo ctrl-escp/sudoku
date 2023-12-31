@@ -14,6 +14,8 @@ In no particular order:
   - [ ] Absolute error (test against solution)
   - [ ] Relative error (collision with row/col/box)
 ### Nice to Have Features
+- [x] Game timer
+  - [ ] Continued over sessions
 - [ ] Manual board input
   - [ ] Validity test for manual board
 - [ ] Game solver
@@ -21,3 +23,4 @@ In no particular order:
 - [ ] Automatic pencil marks
 - [ ] Modify color scheme
 - [ ] Game completed animation
+- [ ] Link to specific board states in a query string?
