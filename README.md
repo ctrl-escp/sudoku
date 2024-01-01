@@ -29,4 +29,5 @@ In no particular order:
 - [ ] Board state is incompletely restored
   - [ ] Pencil marks aren't saved
   - [ ] All digits on the board change to hardcoded after load
+- [ ] Timer does not continue from previous value when loading data
 - [ ] Some borders appear to not overlap
