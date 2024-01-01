@@ -25,3 +25,8 @@ In no particular order:
 - [ ] Modify color scheme
 - [ ] Game completed animation
 - [ ] Link to specific board states in a query string?
+### Known Bugs
+- [ ] Board state is incompletely restored
+  - [ ] Pencil marks aren't saved
+  - [ ] All digits on the board change to hardcoded after load
+- [ ] Some borders appear to not overlap
