@@ -16,6 +16,7 @@ In no particular order:
 - [ ] Restart the same puzzle
 - [ ] Undo button
   - [ ] Redo button
+- [ ] Customize puzzle's difficulty
 ### Nice to Have Features
 - [x] Game timer
   - [ ] Continued over sessions
