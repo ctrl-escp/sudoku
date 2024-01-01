@@ -14,8 +14,8 @@
 			--dialog-background-color: #272734;
 			--dialog-font-color: bisque;
 			--font-color-base: black;
-			--font-color-selected: #0524ea;
-			--font-color-highlight: #05ea10;
+			--font-color-selected: #05ea10;
+			--font-color-highlight: #8d1fea;
 			--font-size-base: 20px;
 		}
 		body {
@@ -109,6 +109,10 @@
 			.selected {
 				background-color: #2782d2;
 			}
+      /*noinspection CssUnusedSymbol*/
+      .disabled {
+        filter: brightness(.6);
+      }
 		}
 		header {
 			display: flex;
@@ -455,7 +459,7 @@
   const skBoardState = 'sudoku_board_state';
   const skChallenge = 'sudoku_challenge';
   const skSolution = 'sudoku_solution';
-  const skGameTime = 'sudoku_game_start_time';
+  const skGameTime = 'sudoku_game_time';
   let gameStartTime;
   let gameTimerIntervalId;
 	let selectedCell;
@@ -485,11 +489,18 @@
   }
 
   /**
+   * @returns {number[]} Retrieve all digits from the board
+   */
+  function getAllDigitsOnBoard() {
+    return Array.from(document.querySelectorAll('[data-name="value"]'), el => Number(el.innerText) || 0);
+  }
+
+  /**
    * Retrieve all values from the board in the form of 9 rows
    * @returns {number[][]}
    */
   function getBoardValues() {
-		const vals = Array.from(document.querySelectorAll('[data-name="value"]'), v => v.innerText || 0);
+		const vals = getAllDigitsOnBoard();
     /*
     Since the values are returned as a concatenation of boxes:
         123 123 123
@@ -533,12 +544,12 @@
 		selectedCell?.classList?.add('selected');
 
 		// Only change cells which aren't marked as hardcoded
-    if (!e.target.dataset.hardcoded) {
-			if (isEraser && !cell.dataset.hardcoded) {
+    if (!cell.dataset.hardcoded) {
+			if (isEraser) {
         cell.children[0].innerText = '';
         cell.children[1].querySelectorAll('td').forEach(el => el.innerText = '');
       }
-			else if (selectedBtn && !cell.dataset.hardcoded) {
+			else if (selectedBtn) {
         if (!gameStartTime) {
           gameStartTime = performance.now();
           startTimer();
@@ -570,8 +581,9 @@
 			}
 			selectedCell = cell;
 			selectedCell.classList.add('selected');
-      saveBoardState(getBoardValues());
+      saveBoardState();
       highlightDigits();
+      reviewKeyboardDigits();
 		}
 	}
 
@@ -604,7 +616,7 @@
    * @param {number} [difficulty]
    * @returns {number[][]}
    */
-  function generateChallenge(board, difficulty = 1) {
+  function generateChallenge(board, difficulty) {
     const maxRemovedDigits = 40;
     let numOfDigitsToRemove = Math.floor(maxRemovedDigits / difficulty);
     const challenge = JSON.parse(JSON.stringify(board));
@@ -660,6 +672,7 @@
 			}
 		}
     saveBoardState();
+    reviewKeyboardDigits();
 	}
 
   function highlightDigits() {
@@ -688,7 +701,19 @@
 			btn.removeEventListener('click', keyClick);
 			btn.addEventListener('click', keyClick);
 		}
+    reviewKeyboardDigits();
 	}
+
+  function reviewKeyboardDigits() {
+    const boardDigitsCount = getAllDigitsOnBoard().reduce((acc, digit) => {
+      acc[digit] = (acc[digit] || 0) + 1;
+      return acc;
+    }, {});
+    for (let i = 1; i < 10; i++) {
+      const d = '' + i
+      document.getElementById(d).classList[boardDigitsCount[d] === 9 ? 'add' : 'remove']('disabled');
+    }
+  }
 
 	function getRandomArrayLength9(startAt0 = true) {
 		const arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -702,49 +727,62 @@
 		return arr;
 	}
 
-	function generateSudoku() {
-		function getBox(b, r, c) {
+  /**
+   * @returns {number[][]} A valid complete sudoku board
+   */
+  function generateSudoku() {
+    let board = Array.from({length: 9}, () => Array.from({length: 9}, () => 0));
+
+    /**
+     * @param {number} r Row
+     * @param {number} c Column
+     * @returns {number[]} All of the digits in a box that corresponds to the cell at the coordinates
+     */
+    function getBox(r, c) {
 			const boxStartRow = Math.floor(r / 3) * 3;
 			const boxStartCol = Math.floor(c / 3) * 3;
 			const box = [];
 
 			for (let row = boxStartRow; row < boxStartRow + 3; row++) {
 				for (let col = boxStartCol; col < boxStartCol + 3; col++) {
-					box.push(b[row][col]);
+					box.push(board[row][col]);
 				}
 			}
 			return box;
 		}
-		function isValidPlacement(b, r, c, d) {
-			if (b[r].includes(d)) return false;
-			for (let i = 0; i < 9; i++) {
-				if (b[i][c] === d) return false;
-			}
-			return !getBox(b, r, c).includes(d);
-		}
 
-		function placeDigitInCell(b, r, c, d) {
-			return isValidPlacement(b, r, c, d) && !b[r][c] && (b[r][c] = d) && true;
-		}
-
-    function getAllDigitsOnBoard(b) {
-      let d = [];
-      for (let r = 0; r < 9; r++) {
-        for (let c = 0; c < 9; c++) {
-          if (b[r][c]) d.push(b[r][c])
-        }
+    /**
+     * @param {number} r Row
+     * @param {number} c Column
+     * @param {number} d Digit
+     * @returns {boolean} Place the digit at the target cell if the placement is valid and return true; false otherwise
+     */
+    function placeDigitInCell(r, c, d) {
+      // Validate placement on row
+      if (board[r].includes(d)) return false;
+      // Validate placement on column
+      for (let i = 0; i < 9; i++) {
+        if (board[i][c] === d) return false;
       }
-      return [...new Set(d)];
-    }
+      // Validate placement on column
+      if (getBox(r, c).includes(d)) return false;
+      // Verify target cell is empty before placing the digit
+			return !board[r][c] && (board[r][c] = d) && true;
+		}
 
-		function populateBoardWithDigit(b, d) {
+    /**
+     * Place a digit on each line on random columns while keeping the board valid.
+     * @param {number} d A digit
+     * @returns {boolean} True if the board is valid after the placement; false otherwise.
+     */
+    function populateBoardWithDigit(d) {
 			for (let row = 0; row < 9; row++) {
-				const cols = getRandomArrayLength9();
-				if (b[row].includes(d)) continue;
+				const cols = getRandomArrayLength9(); // Random column placements
+				if (board[row].includes(d)) continue;
 				let col = cols.shift();
         let isPlaced = false;
 				while (col !== undefined) {
-          if (placeDigitInCell(b, row, col, d)) {
+          if (placeDigitInCell(row, col, d)) {
             isPlaced = true;
             break;
           }
@@ -755,37 +793,46 @@
 			return true;
 		}
 
-		let board = Array.from({length: 9}, () => Array.from({length: 9}, () => 0));
-
 		const boardStates = [JSON.stringify(board)];
 		const digits = getRandomArrayLength9(false);
-    let failureCounter = 9;
+    let attemptsLeft = 9;
     let statesCounter = boardStates.length;
+    /*
+      - Place the same random digit on each row on random columns while keeping the board valid.
+      - If there isn't an order where the board can keep its validity, return to a previous state and try again
+        with another digit.
+      - Rinse and repeat
+     */
 		while (digits.length && boardStates.length) {
-      if (!failureCounter) {
-        const previousBoardDigits = getAllDigitsOnBoard(board);
+      if (!attemptsLeft) {
+        // Since none of the digits can be validly placed, revert to an earlier board state
+        const previousBoardDigits = [...new Set(board.flat())];
         board = JSON.parse(boardStates.pop());
-        const currentBoardDigits = getAllDigitsOnBoard(board);
+        const currentBoardDigits =[...new Set(board.flat())];
         const missingDigit = previousBoardDigits.filter(n => !currentBoardDigits.includes(n));
+        // Insert the missing digits back into the stack to be placed on the board
         digits.push(...missingDigit);
-        failureCounter = 9;
+        attemptsLeft = 9;
       }
       boardStates.push(JSON.stringify(board));
 			const digit = digits.shift();
-			if (!populateBoardWithDigit(board, digit)) {
+			if (!populateBoardWithDigit(digit)) {
 				digits.push(digit);
         board = JSON.parse(boardStates.pop());
-        if (statesCounter === boardStates.length) failureCounter--;
+        if (statesCounter === boardStates.length) attemptsLeft--;
         else {
           statesCounter = boardStates.length;
-          failureCounter = 8;
+          attemptsLeft = 8;
         }
 			}
 		}
-
 		return board;
 	}
 
+  /**
+   * Log the board for debug
+   * @param {number[][]} board
+   */
   function quickPrintBoard(board) {
     let b = '';
     for (let i = 0; i < 9; i++) {
