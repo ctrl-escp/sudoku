@@ -476,6 +476,8 @@
 	let isEraser = false;
   let solution;
   let challenge;
+  const actionsTaken = [];      // For undo
+  const actionsCancelled = [];  // For re-do
 
   /**
    * @param {number} [time]
@@ -539,6 +541,17 @@
 		document.getElementById('eraser').classList[isEraser ? 'add' : 'remove']('active');
 	}
 
+  function undoRedo(redo=false) {
+    const stack = redo ? actionsCancelled : actionsTaken;
+    const action = stack.pop();
+    if (!action) throw new Error(`${redo ? 'Re' : 'Un'}do stack is empty`);
+    (redo ? actionsTaken : actionsCancelled).push({
+      target: action.target,
+      state: action.target.innerHTML,
+    });
+    action.target.innerHTML = action.state;
+  }
+
   /**
    * Callback function for clicking on cells
    * @param {event} e
@@ -553,6 +566,10 @@
 
 		// Only change cells which aren't marked as hardcoded
     if (!cell.dataset.hardcoded) {
+      actionsTaken.push({
+        target: cell,
+        state: cell.innerHTML,
+      });
 			if (isEraser) {
         cell.children[0].innerText = '';
         cell.children[1].querySelectorAll('td').forEach(el => el.innerText = '');
